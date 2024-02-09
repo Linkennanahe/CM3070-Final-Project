@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyMoving : MonoBehaviour
 {
+    //Movement speed of enemy
     public float moveSpeed = 3f;
     private bool isMoving = false;
 
@@ -29,16 +30,15 @@ public class EnemyMoving : MonoBehaviour
         }
         else
         {
-            // Flip the sprite if we're moving left
+            // Flip the sprite when moving left
             spriteRenderer.flipX = movement.x < 0;
         }
-        // Other FixedUpdate logic...
     }
 
     Vector2 movement;
-
+    // Movement of enemy
     void Move()
-    {
+    {   // Using keyboard for now for testing, will change to auto in future version
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 

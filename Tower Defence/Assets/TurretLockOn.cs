@@ -2,49 +2,90 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TurretLockOn : MonoBehaviour
 {
-    // Detection Radius
     public float detectionRadius = 3f;
-    // The by default is 90 degree Anticlockwise, so must -90 to make it point to the enemy 
-    public float offset = -90f; 
-    private Transform EnemyTransform;
+    public float shootingRadius = 2f; // Added shooting radius
+    public float offset = -90f;
+    public float rotationSpeed = 180f;
 
+    private Transform nearestEnemyTransform;
     private AutoFire autoFireScript;
+
+    // Time interval for updating the enemy reference
+    public float updateEnemyInterval = 3f;
 
     private void Start()
     {
-        // Find the Enemy's Location
-        EnemyTransform = GameObject.FindGameObjectWithTag("Enemy").transform;
+        // Initial enemy reference update
+        UpdateNearestEnemyReference();
 
         // Access the AutoFire Script
         autoFireScript = GetComponent<AutoFire>();
-    }
 
+        // Start a coroutine to update the enemy reference at intervals
+        StartCoroutine(UpdateNearestEnemyReferenceCoroutine());
+    }
 
     void Update()
     {
-        if (EnemyTransform != null)
+        // Check if the enemy reference is not null
+        if (nearestEnemyTransform != null)
         {
-            // Calculate the direction to the enemy
-            Vector3 direction = EnemyTransform.position - transform.position;
+            Vector3 direction = nearestEnemyTransform.position - transform.position;
 
             // If enemy is in detection Radius
             if (direction.magnitude <= detectionRadius)
             {
-                // Calculate the TurretAngle needed
-                float TurretAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + offset;
+                float turretAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + offset;
 
-                // Rotate the Turret towards the enemy
-                transform.rotation = Quaternion.Euler(0f, 0f, TurretAngle);
+                Quaternion desiredRotation = Quaternion.Euler(0f, 0f, turretAngle);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
 
-                // Trigger FireGun in AutoFire script
-                autoFireScript.TriggerAutoFire();
+                // Check if the enemy is within shooting radius
+                if (direction.magnitude <= shootingRadius)
+                {
+                    autoFireScript.TriggerAutoFire();
+                }
             }
             else
             {
-                // Maybe can have a detection range so cannon rotates but dont fire until enemy enter fire range
+                // You might want to add logic here for a detection range
             }
+        }
+    }
+
+    void UpdateNearestEnemyReference()
+    {
+        // Find all potential enemies within the detection radius
+        GameObject[] potentialEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        float nearestDistance = Mathf.Infinity;
+        Transform nearestEnemy = null;
+
+        foreach (GameObject enemyObject in potentialEnemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemyObject.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestEnemy = enemyObject.transform;
+            }
+        }
+
+        nearestEnemyTransform = nearestEnemy;
+    }
+
+    IEnumerator UpdateNearestEnemyReferenceCoroutine()
+    {
+        while (true)
+        {
+            // Update the nearest enemy reference at intervals
+            UpdateNearestEnemyReference();
+
+            // Wait for the specified interval before updating again
+            yield return new WaitForSeconds(updateEnemyInterval);
         }
     }
 }

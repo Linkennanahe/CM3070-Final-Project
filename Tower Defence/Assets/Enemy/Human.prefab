@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5987483942638456140}
   - component: {fileID: 3892351833991589396}
   - component: {fileID: 1122452772057716414}
+  - component: {fileID: 3989120413248659532}
   m_Layer: 0
   m_Name: Human
   m_TagString: Enemy
@@ -97,14 +98,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6739421246782647339}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -115,7 +116,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!61 &7214717932822976006
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -194,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4eed563767fe043a3607ed802dc44b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 2
 --- !u!114 &1122452772057716414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,3 +208,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3cfc6f8ee4e884bb14a08568786d1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 50
+  wetColor: {r: 0.45443216, g: 0.6360445, b: 0.8679245, a: 1}
+  burningColor: {r: 0.8207547, g: 0.3777643, b: 0.35230508, a: 1}
+--- !u!114 &3989120413248659532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6739421246782647339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a86e386e256be847848bd52774dca4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.5

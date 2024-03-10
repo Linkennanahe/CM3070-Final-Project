@@ -3,14 +3,18 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab; // Reference to the enemy prefab to be spawned
-    public float spawnInterval = 3f; // Time interval between enemy spawns
-    public float spawnRadius = 5f; // Radius around the spawner where enemies can spawn
-    [HideInInspector] public int maxSpawnCount; // Maximum number of enemies to spawn for this spawner
-
-    private int currentSpawnCount = 0; // Counter for the number of spawned enemies
-
-    private GameObject currentEnemyPrefab; // Reference to the current enemy prefab
+    // Reference to the enemy prefab to be spawned
+    public GameObject enemyPrefab;
+    // Time interval between enemy spawns
+    public float spawnInterval = 3f; 
+    // Radius around the spawner where enemies can spawn
+    public float spawnRadius = 5f; 
+    // Maximum number of enemies to spawn for this spawner
+    [HideInInspector] public int maxSpawnCount; 
+    // Counter for the number of spawned enemies
+    private int currentSpawnCount = 0; 
+    // Reference to the current enemy prefab
+    private GameObject currentEnemyPrefab; 
 
     public Tilemap walkableTilemap;
 
@@ -60,7 +64,8 @@ void SpawnEnemy()
 
         if (autoMoveScript != null)
         {
-            autoMoveScript.walkableTilemap = walkableTilemap; // Set the Tilemap directly
+            // Set the Tilemap directly to prevent mistype error
+            autoMoveScript.walkableTilemap = walkableTilemap; 
         }
         else
         {

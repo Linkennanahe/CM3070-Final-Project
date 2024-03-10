@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class BulletTypeChanger : MonoBehaviour
 {
-    public Bullet bullet; // Reference to the Bullet script
-
+    // Access the Bullet script
+    public Bullet bullet; 
+    // Change Bullet Type
     public void ChangeBulletTypeToPhysical()
     {
         if (bullet != null)

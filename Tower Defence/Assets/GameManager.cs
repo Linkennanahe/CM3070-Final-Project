@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +11,10 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private int highScore = 0;
     private int coins = 0;
+    private GameObject gameOverCanvas;
+
+    // PlayerPrefs keys
+    private const string HighScoreKey = "HighScore";
 
     public static GameManager Instance
     {
@@ -27,15 +34,39 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        // Find the GameObject dynamically in the scene hierarchy during Start
+        gameOverCanvas = GameObject.Find("GameOverCanvas");
+
+        // Load the best score from PlayerPrefs
+        LoadBestScore();
+
+        // Assuming you want to hide the buttons at the start of the game
+        HideGameOverButtons();
+
+        if (gameOverCanvas != null)
+        {
+            gameOverCanvas.SetActive(false);
+        }
+    }
+
     public void GameOver()
     {
-        // Display the game over UI
-        // (You might want to activate a Canvas with buttons, text, etc.)
-        // For simplicity, let's assume you have a Canvas named "GameOverCanvas"
-        GameObject gameOverCanvas = GameObject.Find("GameOverCanvas");
+        // Display the game over UI when game over conditions are met
+
         if (gameOverCanvas != null)
         {
             gameOverCanvas.SetActive(true);
+
+            // Freeze gameplay by setting time scale to 0
+            Time.timeScale = 0;
+
+            // Show game over buttons
+            ShowGameOverButtons();
+
+            // Update best score
+            UpdateBestScore();
         }
     }
 
@@ -43,12 +74,57 @@ public class GameManager : MonoBehaviour
     {
         // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
     }
 
     public void MainMenuButtonClicked()
     {
-        // Load the main menu scene (adjust the scene name as needed)
-        SceneManager.LoadScene("MainMenu");
+        // Load the main menu scene
+        SceneManager.LoadScene("StartScene");
+        Time.timeScale = 1;
+    }
+
+    private void ShowGameOverButtons()
+    {
+        GameObject retryButton = GameObject.Find("RetryButton");
+        GameObject mainMenuButton = GameObject.Find("MainMenuButton");
+
+        if (retryButton != null)
+        {
+            retryButton.SetActive(true);
+        }
+
+        if (mainMenuButton != null)
+        {
+            mainMenuButton.SetActive(true);
+        }
+    }
+
+    private void HideGameOverButtons()
+    {
+        GameObject retryButton = GameObject.Find("RetryButton");
+        GameObject mainMenuButton = GameObject.Find("MainMenuButton");
+
+        if (retryButton != null)
+        {
+            retryButton.SetActive(false);
+        }
+
+        if (mainMenuButton != null)
+        {
+            mainMenuButton.SetActive(false);
+        }
+    }
+
+    public void StartGame()
+    {
+        // Reset the game state and hide buttons
+        Time.timeScale = 1;
+        score = 0;
+        coins = 0;
+        UpdateScoreUI();
+        UpdateCoinsUI();
+        HideGameOverButtons();
     }
 
     public void AddScore(int amount)
@@ -60,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     public void AddCoins(int amount)
     {
-        coins += amount;
+        coins += 2*amount;
         UpdateCoinsUI();
     }
 
@@ -95,5 +171,20 @@ public class GameManager : MonoBehaviour
         {
             Score.instance.UpdateCoins(coins);
         }
+    }
+
+    private void UpdateBestScore()
+    {
+        if (highScore > PlayerPrefs.GetInt(HighScoreKey, 0))
+        {
+            PlayerPrefs.SetInt(HighScoreKey, highScore);
+            PlayerPrefs.Save();
+        }
+    }
+
+    private void LoadBestScore()
+    {
+        highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+        UpdateHighScoreUI();
     }
 }

@@ -5,14 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class AutoMove : MonoBehaviour
 {
-    public float moveSpeed = 5f; // Adjust the speed as needed
+    public float moveSpeed = 5f; 
 
     Animator animator;
     SpriteRenderer spriteRenderer;
-
-    Transform player; // Reference to the player's transform
-
-    public Tilemap walkableTilemap; // Assign the walkable tilemap in the Unity Editor
+    // Reference to the player's position
+    Transform player; 
+    // Assign the walkable tilemap
+    public Tilemap walkableTilemap; 
 
     void Start()
     {
@@ -89,7 +89,7 @@ public class AutoMove : MonoBehaviour
 
     List<Vector3Int> AStarPathfinding(Vector3Int start, Vector3Int target)
     {
-        // Create a priority queue for the open list
+        // Create a priority queue
         PriorityQueue<Vector3Int> openList = new PriorityQueue<Vector3Int>();
         openList.Enqueue(start, 0);
 
@@ -119,17 +119,17 @@ public class AutoMove : MonoBehaviour
                 return path;
             }
 
-            foreach (Vector3Int neighbor in GetNeighbors(current))
+            foreach (Vector3Int neighbour in GetNeighbours(current))
             {
-                float cost = gCost[current] + Vector3Int.Distance(current, neighbor);
+                float cost = gCost[current] + Vector3Int.Distance(current, neighbour);
 
-                if (!gCost.ContainsKey(neighbor) || cost < gCost[neighbor])
+                if (!gCost.ContainsKey(neighbour) || cost < gCost[neighbour])
                 {
-                    gCost[neighbor] = cost;
-                    hCost[neighbor] = Heuristic(neighbor, target);
-                    float priority = cost + hCost[neighbor];
-                    openList.Enqueue(neighbor, priority);
-                    parent[neighbor] = current;
+                    gCost[neighbour] = cost;
+                    hCost[neighbour] = Heuristic(neighbour, target);
+                    float priority = cost + hCost[neighbour];
+                    openList.Enqueue(neighbour, priority);
+                    parent[neighbour] = current;
                 }
             }
         }
@@ -138,25 +138,25 @@ public class AutoMove : MonoBehaviour
         return new List<Vector3Int>();
     }
 
-    List<Vector3Int> GetNeighbors(Vector3Int current)
+    List<Vector3Int> GetNeighbours(Vector3Int current)
     {
-        List<Vector3Int> neighbors = new List<Vector3Int>();
+        List<Vector3Int> neighbours = new List<Vector3Int>();
 
-        // Add adjacent cells as neighbors if they are walkable
-        TryAddNeighbor(neighbors, new Vector3Int(current.x + 1, current.y, current.z));
-        TryAddNeighbor(neighbors, new Vector3Int(current.x - 1, current.y, current.z));
-        TryAddNeighbor(neighbors, new Vector3Int(current.x, current.y + 1, current.z));
-        TryAddNeighbor(neighbors, new Vector3Int(current.x, current.y - 1, current.z));
+        // Add adjacent cells as neighbours if they are walkable
+        TryAddNeighbour(neighbours, new Vector3Int(current.x + 1, current.y, current.z));
+        TryAddNeighbour(neighbours, new Vector3Int(current.x - 1, current.y, current.z));
+        TryAddNeighbour(neighbours, new Vector3Int(current.x, current.y + 1, current.z));
+        TryAddNeighbour(neighbours, new Vector3Int(current.x, current.y - 1, current.z));
 
-        return neighbors;
+        return neighbours;
     }
 
-    void TryAddNeighbor(List<Vector3Int> neighbors, Vector3Int position)
+    void TryAddNeighbour(List<Vector3Int> neighbours, Vector3Int position)
     {
         // Check if the position is within the walkable tilemap bounds and if the tile at that position is walkable
         if (walkableTilemap != null && walkableTilemap.HasTile(position))
         {
-            neighbors.Add(position);
+            neighbours.Add(position);
         }
     }
 

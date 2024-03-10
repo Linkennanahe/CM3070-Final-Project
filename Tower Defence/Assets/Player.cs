@@ -79,10 +79,11 @@ public class Player : MonoBehaviour
         OnCoinsChanged?.Invoke(coins);
     }
 
-    // Method to handle player defeat (customize as needed)
+
     void Defeat()
     {
         Debug.Log("Player Defeated!");
-        // Implement your defeat logic here
+        // Trigger game over when defeated
+        FindObjectOfType<GameManager>().GameOver();
     }
 }

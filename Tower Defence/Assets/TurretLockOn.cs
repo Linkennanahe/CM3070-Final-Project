@@ -49,10 +49,6 @@ public class TurretLockOn : MonoBehaviour
                     autoFireScript.TriggerAutoFire();
                 }
             }
-            else
-            {
-                // You might want to add logic here for a detection range
-            }
         }
     }
 

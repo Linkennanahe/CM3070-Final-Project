@@ -45,7 +45,7 @@ public class EnemyStatus : MonoBehaviour
         // Update status timers
         UpdateTimers();
 
-        // Different Enemy Status future implement reaction based on status of enemy
+        // Different Enemy Status, implement reaction based on current status of enemy
         switch (currentStatus)
         {
             case EnemyStatusType.Normal:
@@ -71,14 +71,16 @@ public class EnemyStatus : MonoBehaviour
     {
         // Apply burning status
         currentStatus = EnemyStatusType.Burning;
-        burningTimer = burningDuration; // Set the timer to the duration
+        // Set the timer to the duration
+        burningTimer = burningDuration; 
     }
 
     void ApplyWetStatus()
     {
         // Apply wet status
         currentStatus = EnemyStatusType.Wet;
-        wetTimer = wetDuration; // Set the timer to the duration
+        // Set the timer to the duration
+        wetTimer = wetDuration; 
     }
 
     void UpdateTimers()

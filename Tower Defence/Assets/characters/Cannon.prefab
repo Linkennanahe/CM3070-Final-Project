@@ -114,7 +114,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!61 &8026885712889103844
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb332eb8928d9045a1c1b9f6e222f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletType: 2
+  bulletType: 1
   physicalSprite: {fileID: 21300000, guid: c32d2dcc36ccc29408cc2b012efa9893, type: 3}
   fireSprite: {fileID: 21300000, guid: b62984fea2fe092458471aaf52608680, type: 3}
   waterSprite: {fileID: 21300000, guid: c96990a3b489ae14bab3ca7a51d153b3, type: 3}
